@@ -27,14 +27,14 @@ public class Order {
     private Long price;
 
     @Column(nullable = false)
-    private LocalDateTime createTime;
+    private LocalDateTime createdAt;
 
     public static Order create(Long userId, Long menuId, Long price) {
         Order order = new Order();
         order.userId = userId;
         order.menuId = menuId;
         order.price = price;
-        order.createTime = LocalDateTime.now();
+        order.createdAt = LocalDateTime.now();
         return order;
     }
 }

@@ -23,4 +23,20 @@ public class User {
         user.point = 0L;
         return user;
     }
+
+    // 포인트 충전
+    public void charge(Long amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("충전 금액은 0보다 커야 합니다.");
+        }
+        this.point += amount;
+    }
+
+    // 포인트 차감
+    public void use(Long amount) {
+        if (this.point < amount) {
+            throw new IllegalStateException("포인트가 부족합니다.");
+        }
+        this.point -= amount;
+    }
 }
