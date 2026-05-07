@@ -20,6 +20,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final MenuRepository menuRepository;
+    private final OrderRankingService orderRankingService;
 
     @Transactional
     public OrderResponse order(OrderRequest request) {
@@ -33,6 +34,8 @@ public class OrderService {
 
         Order order = Order.create(user.getId(), menu.getId(), menu.getPrice());
         Order saved = orderRepository.save(order);
+
+        orderRankingService.recordOrder(saved.getId(), saved.getMenuId(), saved.getCreatedAt());
 
         return OrderResponse.from(saved);
     }
