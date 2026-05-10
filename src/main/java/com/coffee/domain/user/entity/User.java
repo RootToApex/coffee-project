@@ -34,11 +34,4 @@ public class User {
         this.point += amount;
     }
 
-    // 포인트 차감
-    public void use(Long amount) {
-        if (this.point < amount) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_POINT);
-        }
-        this.point -= amount;
-    }
 }
