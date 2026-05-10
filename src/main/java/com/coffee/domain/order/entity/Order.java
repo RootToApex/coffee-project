@@ -29,6 +29,7 @@ public class Order {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    // 주문 시점의 가격 함께 저장 (가격 변동에 대비)
     public static Order create(Long userId, Long menuId, Long price) {
         Order order = new Order();
         order.userId = userId;

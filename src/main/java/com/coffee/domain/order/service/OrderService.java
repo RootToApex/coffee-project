@@ -34,14 +34,17 @@ public class OrderService {
         Menu menu = menuRepository.findById(request.menuId())
                 .orElseThrow(() -> new CustomException(ErrorCode.MENU_NOT_FOUND));
 
+        // 조건부 업데이트로 포인트 차감, 잔액 부족 시 0반환 예외 처리
         int updated = userRepository.deductPoint(user.getId(), menu.getPrice());
         if (updated == 0) {
             throw new CustomException(ErrorCode.INSUFFICIENT_POINT);
         }
 
+        // 주문 시점 가격 저장(메뉴 가격 변경 시 주문 내역 보존)
         Order order = Order.create(user.getId(), menu.getId(), menu.getPrice());
         Order saved = orderRepository.save(order);
 
+        // 스프링 이벤트로 발행, 실제 Kafka 전송은 트랜잭션 커밋 후
         orderEventPublisher.publishOrderCreated(
                 new OrderCreatedEvent(
                         saved.getId(),

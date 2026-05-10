@@ -20,6 +20,7 @@ public class OrderRankingService {
     // 주문 발생 시 ZSET에 기록
     //  epoch milli -> ZSET의 score는 숫자만 가능하기 때문에 시간 정보를 숫자로 변환하여 저장
     public void recordOrder(Long orderId, Long menuId, LocalDateTime orderedAt) {
+        // orderId를 member에 포함시켜 동일 메뉴 주문이 별개 member로 카운트
         String member = orderId + ":" + menuId;
         long score = orderedAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         redisTemplate.opsForZSet().add(RANKING_KEY, member, score);
