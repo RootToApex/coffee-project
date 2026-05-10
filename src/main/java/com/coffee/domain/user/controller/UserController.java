@@ -1,5 +1,6 @@
 package com.coffee.domain.user.controller;
 
+import com.coffee.common.response.ApiResponse;
 import com.coffee.domain.user.dto.PointChargeRequest;
 import com.coffee.domain.user.dto.PointResponse;
 import com.coffee.domain.user.service.UserService;
@@ -15,10 +16,10 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/{userId}/point/charge")
-    public PointResponse chargePoint(
+    public ApiResponse<PointResponse> chargePoint(
             @PathVariable Long userId,
             @Valid @RequestBody PointChargeRequest request
     ) {
-        return userService.chargePoint(userId, request);
+        return ApiResponse.success(userService.chargePoint(userId, request));
     }
 }

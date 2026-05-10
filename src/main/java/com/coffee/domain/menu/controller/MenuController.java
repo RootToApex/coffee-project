@@ -1,5 +1,6 @@
 package com.coffee.domain.menu.controller;
 
+import com.coffee.common.response.ApiResponse;
 import com.coffee.domain.menu.dto.MenuResponse;
 import com.coffee.domain.menu.dto.PopularMenuResponse;
 import com.coffee.domain.menu.service.MenuService;
@@ -18,12 +19,12 @@ public class MenuController {
     private final MenuService menuService;
 
     @GetMapping
-    public List<MenuResponse> getAllMenus() {
-        return menuService.getAllMenus();
+    public ApiResponse<List<MenuResponse>> getAllMenus() {
+        return ApiResponse.success(menuService.getAllMenus());
     }
 
     @GetMapping("/popular")
-    public List<PopularMenuResponse> getPopularMenus() {
-        return menuService.getPopularMenus();
+    public ApiResponse<List<PopularMenuResponse>> getPopularMenus() {
+        return ApiResponse.success(menuService.getPopularMenus());
     }
 }
