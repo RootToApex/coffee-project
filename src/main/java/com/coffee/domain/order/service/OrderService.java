@@ -1,5 +1,7 @@
 package com.coffee.domain.order.service;
 
+import com.coffee.common.exception.CustomException;
+import com.coffee.common.exception.ErrorCode;
 import com.coffee.domain.menu.entity.Menu;
 import com.coffee.domain.menu.repository.MenuRepository;
 import com.coffee.domain.order.dto.OrderRequest;
@@ -27,10 +29,10 @@ public class OrderService {
     @Transactional
     public OrderResponse order(OrderRequest request) {
         User user = userRepository.findById(request.userId())
-                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         Menu menu = menuRepository.findById(request.menuId())
-                .orElseThrow(() -> new IllegalArgumentException("메뉴가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.MENU_NOT_FOUND));
 
         user.use(menu.getPrice());
 

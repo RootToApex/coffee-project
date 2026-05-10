@@ -3,6 +3,7 @@ package com.coffee.domain.order.controller;
 import com.coffee.domain.order.dto.OrderRequest;
 import com.coffee.domain.order.dto.OrderResponse;
 import com.coffee.domain.order.service.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public OrderResponse order(@RequestBody OrderRequest request) {
+    public OrderResponse order(@Valid @RequestBody OrderRequest request) {
         return orderService.order(request);
     }
 }

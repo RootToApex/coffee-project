@@ -1,5 +1,7 @@
 package com.coffee.domain.user.entity;
 
+import com.coffee.common.exception.CustomException;
+import com.coffee.common.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -27,7 +29,7 @@ public class User {
     // 포인트 충전
     public void charge(Long amount) {
         if (amount <= 0) {
-            throw new IllegalArgumentException("충전 금액은 0보다 커야 합니다.");
+            throw new CustomException(ErrorCode.INVALID_CHARGE_AMOUNT);
         }
         this.point += amount;
     }
@@ -35,7 +37,7 @@ public class User {
     // 포인트 차감
     public void use(Long amount) {
         if (this.point < amount) {
-            throw new IllegalStateException("포인트가 부족합니다.");
+            throw new CustomException(ErrorCode.INSUFFICIENT_POINT);
         }
         this.point -= amount;
     }

@@ -1,5 +1,7 @@
 package com.coffee.domain.user.service;
 
+import com.coffee.common.exception.CustomException;
+import com.coffee.common.exception.ErrorCode;
 import com.coffee.domain.user.dto.PointChargeRequest;
 import com.coffee.domain.user.dto.PointResponse;
 import com.coffee.domain.user.entity.User;
@@ -18,7 +20,7 @@ public class UserService {
     @Transactional
     public PointResponse chargePoint(Long userId, PointChargeRequest request) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         user.charge(request.amount());
 
