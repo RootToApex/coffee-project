@@ -34,7 +34,10 @@ public class OrderService {
         Menu menu = menuRepository.findById(request.menuId())
                 .orElseThrow(() -> new CustomException(ErrorCode.MENU_NOT_FOUND));
 
-        user.use(menu.getPrice());
+        int updated = userRepository.deductPoint(user.getId(), menu.getPrice());
+        if (updated == 0) {
+            throw new CustomException(ErrorCode.INSUFFICIENT_POINT);
+        }
 
         Order order = Order.create(user.getId(), menu.getId(), menu.getPrice());
         Order saved = orderRepository.save(order);
